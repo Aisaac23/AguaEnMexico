@@ -1,4 +1,4 @@
-# Agua En Mexico
+# Agua en México
 
 This is my first personal project using Python, after taking a course about Python for data analysis and getting and Edx certification in Python for data science.
 
