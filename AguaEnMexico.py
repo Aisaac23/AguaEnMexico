@@ -38,7 +38,7 @@ def roundAlwaysUp( toRound, end = 0 ):
 	toRound = int( toRound )
 	if str( toRound ).endswith( str(end) ):
 		toRound = toRound + 1
-	while( not str( toRound ).endswith(end) ):
+	while( not str( toRound ).endswith( str(end) ) ):
 			toRound = toRound + 1
 	return toRound
 
