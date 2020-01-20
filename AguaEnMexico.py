@@ -34,13 +34,21 @@ fillAx.set_axis_off()
 yearsDisplayed = []	
 constantColors = []
 
-def roundAlwaysUp( toRound, end = 0 ):
-	toRound = int( toRound )
-	if str( toRound ).endswith( str(end) ):
-		toRound = toRound + 1
-	while( not str( toRound ).endswith( str(end) ) ):
-			toRound = toRound + 1
-	return toRound
+def roundAlwaysUp( toRound, end = 10 ):
+	""" 
+	This snippet will round-up any given integer or float, to at least 10 or to the highest multiple of 10.
+	You can pass an unsigned/positive integer as the "end" argument if you want the number to be rounded to at least a multiple of "end".
+	Returned value will always be an integer.
+	"""
+	if end == 0:
+		end = 10
+	end = abs( end )
+	times = toRound/end
+	if times >= 0:
+		times = times + 1
+	else:
+		times = times - 1
+	return ( int( times ) )*end; 
 
 def updateBarChart(label):
 	location.cla()
