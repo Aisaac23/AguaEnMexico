@@ -34,15 +34,13 @@ fillAx.set_axis_off()
 yearsDisplayed = []	
 constantColors = []
 
-def roundAlwaysUp( absoluteMax ):
-	absoluteMax = round( absoluteMax )
-	roundedMax = round( absoluteMax , (len( str( absoluteMax ) )*-1) +1 )
-	if roundedMax < absoluteMax:
-		roundedMax = absoluteMax + 1
-		while( str( roundedMax )[-1] != "0" ):
-			roundedMax = roundedMax + 1
-	absoluteMax = roundedMax
-	return absoluteMax
+def roundAlwaysUp( toRound, end = 0 ):
+	toRound = int( toRound )
+	if str( toRound ).endswith( str(end) ):
+		toRound = toRound + 1
+	while( not str( toRound ).endswith(end) ):
+			toRound = toRound + 1
+	return toRound
 
 def updateBarChart(label):
 	location.cla()
@@ -60,7 +58,7 @@ def updateBarChart(label):
 	
 def barAllStatesAllYears(year=2010):
 	N_STATES = 32
-	Y_ROTATION_LABELS = 45
+	ROTATION_ANGLE = 45
 	NACIONAL = "NACIONAL"
 	SHRINK_BAR = 0.11
 	
@@ -120,7 +118,7 @@ def barAllStatesAllYears(year=2010):
 	figure.suptitle( ( "Precipitación anual en %s" + ( formating ) )%  tuple( yearsDisplayed )  )
 
 	for label in location.get_xticklabels():
-		label.set_rotation( Y_ROTATION_LABELS )
+		label.set_rotation( ROTATION_ANGLE )
 	
 	return figure, both
 
@@ -156,7 +154,7 @@ def barTotalPerYear(state, fromYear, toYear):
 #A line graph of the state indicated, allocating every year we have as data in rows and cols indicated 
 def lineAllYearsPerMonth(state, rows, cols):
 	years = {}
-	Y_ROTATION_LABELS = 90 #degrees
+	ROTATION_ANGLE = 90 #degrees
 
 	for key, value in rainDictionaries.items():
 		years[key] = value[state]
@@ -186,7 +184,7 @@ def lineAllYearsPerMonth(state, rows, cols):
 		location[r, c].set_ylim(0, absoluteMax)
 		location[r, c].set_yticks( location[r, c].get_yticks() )
 		for label in location[r, c].get_xticklabels():
-			label.set_rotation( Y_ROTATION_LABELS )
+			label.set_rotation( ROTATION_ANGLE )
 
 		c = c+1
 
