@@ -5,11 +5,14 @@ import math
 import random
 from matplotlib.widgets import CheckButtons
 import matplotlib.patches as mpatches
+from roundAlwaysUp import roundAlwaysUp
+from dataPreProcessingFunctions import dataPreProcessing
+from processCVSFilesFunctions import createDictionariesFromDataFrames
 
 TXT_EXT, CSV_EXT = ".txt", ".csv"
 ENTIDAD = "ENTIDAD"
 YEAR, N_YEARS, RECORD_SIZE = 2010, 10, 14
-PATH = "/root/Documentos/Python-Projects/Resumenes-Mensuales-de-precipitacion/"
+PATH = "/root/git/AguaEnMexico/Resumenes-Mensuales-de-precipitacion/"
 txtPaths, csvPaths = [], []
 X_INCHES_LAPTOP = 12
 Y_INCHES_LAPTOP = 7
@@ -19,7 +22,6 @@ COLOR_SIZE = 6
 
 mmExplained = "La precipitación pluvial se mide en mm, que sería el espesor de la lámina de agua que se formaría, a causa de la" +  " precipitación, sobre una superficie plana e impermeable y que equivale a litros de agua por metro cuadrado de terreno (l/m^2)."
 
-rainDataFrames = {}
 rainDictionaries = {}
 
 figure = plt.figure( constrained_layout=True )
@@ -33,22 +35,6 @@ fillAx.set_axis_off()
 
 yearsDisplayed = []	
 constantColors = []
-
-def roundAlwaysUp( toRound, end = 10 ):
-	""" 
-	This snippet will round-up any given integer or float, to at least 10 or to the highest multiple of 10.
-	You can pass an unsigned/positive integer as the "end" argument if you want the number to be rounded to at least a multiple of "end".
-	Returned value will always be an integer.
-	"""
-	if end == 0:
-		end = 10
-	end = abs( end )
-	times = toRound/end
-	if times >= 0:
-		times = times + 1
-	else:
-		times = times - 1
-	return ( int( times ) )*end; 
 
 def updateBarChart(label):
 	location.cla()
@@ -202,60 +188,6 @@ def lineAllYearsPerMonth(state, rows, cols):
 	figure.set_size_inches(X_INCHES_LAPTOP + 1, X_INCHES_LAPTOP + 1)
 	return figure, location
 
-def dataPreProcessing():
-	#Processing the .txt files and converting them into .csv ones
-	for txtpath, csvpath in zip(txtPaths, csvPaths):
-		rain_file = open( txtpath )
-		lines = rain_file.readlines()
-		csv_lines = []
-		
-		#eliminating any additional comma or whitespace, leaving headers and values only 
-		entidadFound = False
-		for index, line in enumerate(lines):
-			line = line.replace( ",","" )
-			line = line.replace( '\n',"" )
-			line = line.replace( '\r',"" )
-			line = line.replace( "\n\r","" )
-			line = line.strip()
-			if len( line ) > 0:
-				if line[0].isalpha():
-					line = line.upper()
-				if line == ENTIDAD:
-					entidadFound = True
-				if line != ENTIDAD and not entidadFound: #highly dependant of the txt file
-					line=""
-			lines[index] = line
-
-		#moving only the values to a different list
-		actualValues = []
-		for line in lines:
-			if len(line) > 0 and ( line[0].isalpha() or line[0].isnumeric() ):
-				actualValues.append( line )
-
-		#formating the values to add them a comma or a new-line character 
-		recordMark = 1;
-		for index, value in enumerate(actualValues):
-			if recordMark%RECORD_SIZE == 0:
-				actualValues[index] = value + "\n"
-			else:
-				actualValues[index] = value + ","
-			recordMark = recordMark + 1
-		
-		#writting the values to a .csv files
-		rainCSVFile = open( csvpath, "w" )
-		for value in actualValues:
-			rainCSVFile.write( value )
-		rainCSVFile.close()
-
-def createDataFrames():
-	#creating a dictionary of dataframes with the years as keys (e.g 2010 -> dataframe_of_2010)
-	for index, path in enumerate(csvPaths):
-		rainDataFrames[index+YEAR] = pd.read_csv(path)
-
-	#setting the column "ENTIDAD" as index of the dataframe since it'll be easier to iterate by name and all the names are unique.
-	#also, we create a dictionary of dictionaries with the following format: year:{"ENTIDAD":{"MONTH":amount}}
-	for key, value in rainDataFrames.items():
-		rainDictionaries[key] = value.set_index(ENTIDAD).to_dict("index")
 
 #Creating the paths to locate the .txt files and to create the .csv ones
 for year in range(YEAR, YEAR+N_YEARS):
@@ -263,9 +195,10 @@ for year in range(YEAR, YEAR+N_YEARS):
 	csvPaths.append(PATH + str(year) + CSV_EXT)
 	yearColor = "#"+format( random.randint(0, COLORS_LIMIT), "X" ).zfill(COLOR_SIZE)
 	constantColors.append( yearColor )
-	
-dataPreProcessing()
-createDataFrames()
+
+dataPreProcessing(txtPaths, csvPaths)
+rainDictionaries = createDictionariesFromDataFrames(csvPaths, 2010)
+
 figureBar, loc = barTotalPerYear( "AGUASCALIENTES", YEAR, YEAR+N_YEARS )
 figureLine, locs = lineAllYearsPerMonth( state = "AGUASCALIENTES", rows = 2, cols = 5 )
 
