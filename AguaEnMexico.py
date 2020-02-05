@@ -18,18 +18,21 @@ rainDictionaries = {}
 for year in range(YEAR, YEAR+N_YEARS):
 	txtPaths.append(PATH + str(year) + TXT_EXT)
 	csvPaths.append(PATH + str(year) + CSV_EXT)
-	
+
+#executing the dataPreProcessing module
 dataPreProcessing(txtPaths, csvPaths)
+
+#getting the dictionaries from the dataFrames that were created with the CVS files.
 rainDictionaries = createDictionariesFromDataFrames(csvPaths, 2010)
 
+#Creating an object for the simple plots
 simpPlots = SimpleRainPlots(rainDictionaries)
 
+#Ploting the bar and the line chart of AGUASCALIENTES but could be of any other Mexico's sstate
 figureBar, loc = simpPlots.barTotalPerYear( "AGUASCALIENTES", YEAR, YEAR+N_YEARS )
 figureLine, locs = simpPlots.lineAllYearsPerMonth( state = "AGUASCALIENTES", rows = 2, cols = 5 )
 
-#figureBar.savefig("Aguascalientes-ten-years-totals.png")
-#figureLine.savefig("Aguascalientes-ten-years-by-month.png")
-
+#Building the interactive plot
 interactiveRainP = InteractiveRainPlot(rainDictionaries)
 interactiveRainP.buildSpaceForPlot()
 interactiveRainP.buildButtonsArea()

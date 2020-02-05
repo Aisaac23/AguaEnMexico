@@ -49,7 +49,8 @@ class SimpleRainPlots:
 		for key, value in self.rainDictionaries.items():
 			years[key] = value[state]
 		
-		figure, location = plt.subplots(rows, cols, constrained_layout = True)	
+		figure, location = plt.subplots(rows, cols, constrained_layout = True)
+	
 		#We find the Maximum value of all the years
 		absoluteMax = 0
 		for value in years.values():
@@ -68,7 +69,7 @@ class SimpleRainPlots:
 				c = 0
 				r = r+1
 			
-			location[r, c].plot( months[0:-1], mm[0:-1] )# [0:1] will get all the values but the last one which is the "ANUAL" value
+			location[r, c].plot( months[0:-1], mm[0:-1] )# [0:] will get all the values but the last one which is the "ANUAL" value
 			location[r, c].set_title( str(key) )
 			location[r, c].grid(True)
 			location[r, c].set_ylim(0, absoluteMax)

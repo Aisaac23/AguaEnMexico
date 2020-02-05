@@ -9,6 +9,7 @@ from roundAlwaysUp import roundAlwaysUp
 
 class InteractiveRainPlot:
 
+	#Creates an "skeleton" for the chart to be drawn
 	def __init__(self, rainDictionaries):
 		self.rainDictionaries = rainDictionaries
 		self.figure = plt.figure( constrained_layout=True )
@@ -21,6 +22,7 @@ class InteractiveRainPlot:
 		self.COLORS_LIMIT = 16000000
 		self.COLOR_SIZE = 6
 
+	#Add details to the "skeleton"
 	def buildSpaceForPlot(self):
 		X_INCHES_LAPTOP = 12
 		Y_INCHES_LAPTOP = 7
@@ -31,6 +33,7 @@ class InteractiveRainPlot:
 		fillAx = self.figure.add_subplot( self.gridSpaceBarChart[2,0] )
 		fillAx.set_axis_off()
 
+	#Triggered every time we check or uncheck a checkbox
 	def updateBarChart(self, label):
 		self.location.cla()
 		del( self.yearsDisplayed[:] )
@@ -45,8 +48,8 @@ class InteractiveRainPlot:
 
 		plt.draw()
 
+	#Add details to the buttons area and sets the function triggered to the corresponding event 
 	def buildButtonsArea(self):
-		#self.checks = CheckButtons( self.buttonsArea, self.rainDictionaries.keys() ) 
 		self.buttonsArea.set_title("Years")
 		self.checks.on_clicked( self.updateBarChart )
 		for year in self.rainDictionaries.keys():
@@ -65,6 +68,8 @@ class InteractiveRainPlot:
 
 		states = {}
 		totals = {}
+		
+		#If there is no year checked int the button area we add the default value or the one passed as argument.
 		if(len(self.yearsDisplayed) == 0):
 			self.yearsDisplayed.append(str(year));		
 
@@ -81,6 +86,7 @@ class InteractiveRainPlot:
 		absoluteMax = max( totals.values() )
 		absoluteMax = roundAlwaysUp( absoluteMax )
 		
+		#Makes the rectangles to diferentiate each year in the legend.
 		yearsRectangles = []
 		shrinkTimes = 0
 		if len( self.yearsDisplayed ) > 1:
