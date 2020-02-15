@@ -10,6 +10,10 @@ YEAR, N_YEARS = 2010, 10
 PATH = "/root/git/AguaEnMexico/Resumenes-Mensuales-de-precipitacion/"
 txtPaths, csvPaths = [], []
 
+PATH = input("Enter the full path where the monthly data is located: ")
+YEAR = int( input("Enter the initial the initial year: ") )
+N_YEARS = int( input("How many years from then will be analized? ") )
+
 #mmExplained = "La precipitación pluvial se mide en mm, que sería el espesor de la lámina de agua que se formaría, a causa de la" +  " precipitación, sobre una superficie plana e impermeable y que equivale a litros de agua por metro cuadrado de terreno (l/m^2)."
 
 rainDictionaries = {}
@@ -28,9 +32,14 @@ rainDictionaries = createDictionariesFromDataFrames(csvPaths, 2010)
 #Creating an object for the simple plots
 simpPlots = SimpleRainPlots(rainDictionaries)
 
+STATE = input("Enter the name of a Mexico's state to get its yearly data: ")
+
 #Ploting the bar and the line chart of AGUASCALIENTES but could be of any other Mexico's sstate
-figureBar, loc = simpPlots.barTotalPerYear( "AGUASCALIENTES", YEAR, YEAR+N_YEARS )
-figureLine, locs = simpPlots.lineAllYearsPerMonth( state = "AGUASCALIENTES", rows = 2, cols = 5 )
+figureBar, loc = simpPlots.barTotalPerYear( STATE.upper(), YEAR, YEAR+N_YEARS )
+
+STATE = input("Enter the name of a Mexico's state to get its monthly data over the total of years: ")
+
+figureLine, locs = simpPlots.lineAllYearsPerMonth( STATE.upper(), rows = 2, cols = 5 )
 
 #Building the interactive plot
 interactiveRainP = InteractiveRainPlot(rainDictionaries)
