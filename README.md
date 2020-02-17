@@ -2,7 +2,7 @@
 
 This is my first personal project using Python, after taking a course about Python for data analysis and getting and Edx certification in Python for data science.
 
-It is aimed to visualize data about the precipitation in Mexico. 
+It is aimed to visualize data about precipitation measurements in Mexico. 
 
 - The project has the following features:
 	- Function that performs the data pre-processing step which takes plain text files with the data and converts them into ready-to use CSV files.(Example: Aguascalientes-ten-years-totals.png) 
