@@ -70,7 +70,7 @@ class InteractiveRainPlot:
 		totals = {}
 		
 		#If there is no year checked int the button area we add the default value or the one passed as argument.
-		if(len(self.yearsDisplayed) == 0):
+		if( len(self.yearsDisplayed) == 0 ):
 			self.yearsDisplayed.append(str(year));		
 
 		states = self.rainDictionaries[year] # we get a dictionary with the form: {state:{month:amount}} for each year
