@@ -15,7 +15,7 @@ class InteractiveRainPlot:
 		self.figure = plt.figure( constrained_layout=True )
 		self.gridSpaceBarChart = self.figure.add_gridspec(3, 8)
 		self.location = self.figure.add_subplot(self.gridSpaceBarChart[ : , 1: ]) 
-		self.buttonsArea = self.figure.add_subplot(self.gridSpaceBarChart[1,0])
+		self.buttonsArea = self.figure.add_subplot(self.gridSpaceBarChart[0:2,0])
 		self.checks = CheckButtons( self.buttonsArea, self.rainDictionaries.keys() ) 
 		self.yearsDisplayed = []	
 		self.constantColors = []

@@ -22,7 +22,7 @@ class SimpleRainPlots:
 			self.names.append(state)
 
 		
-		self.radio_buttons = RadioButtons(self.inputArea, tuple( self.names ) , active=1);
+		self.radio_buttons = RadioButtons(self.inputArea, tuple( self.names ) , active=0);
 		self.buildInputArea()
 		self.inputArea.set_facecolor( 'lightgoldenrodyellow' )
 		self.barTotalPerYear(self.names[0], firstYear, firstYear + len( self.rainDictionaries.keys() ) )
@@ -33,8 +33,6 @@ class SimpleRainPlots:
 		
 		self.barTotalPerYear(self.AllStates[ self.names.index(label) ], year, year + len( self.rainDictionaries.keys() ) )
 
-
-		#self.lineAllYearsPerMonth(self.AllStates[ self.names.index(label) ], 2, 5)
 		plt.draw()
 
 	#This function takes the state's name as argument and the range of years and creates and bar chart with the total precipitation per year.

@@ -9,10 +9,10 @@ from interactiveRainPlot import InteractiveRainPlot
 
 TXT_EXT, CSV_EXT = ".txt", ".csv"
 YEAR, N_YEARS = 2010, 10
-#PATH = "/home/isaac/Documentos/git/AguaEnMexico/Resumenes-Mensuales-de-precipitacion/"
+PATH = "/home/isaac/Documentos/git/AguaEnMexico/Resumenes-Mensuales-de-precipitacion/"
 txtPaths, csvPaths = [], []
 
-PATH = input("Enter the full path where the monthly data is located: ")
+#PATH = input("Enter the full path where the monthly data is located: ")
 #YEAR = int( input("Enter the initial the initial year: ") )
 #N_YEARS = int( input("How many years from then will be analized? ") )
 
@@ -28,6 +28,12 @@ for year in range(YEAR, YEAR+N_YEARS):
 #getting the dictionaries from the dataFrames that were created with the CVS files.
 rainDictionaries = createDictionariesFromDataFrames(csvPaths, 2010)
 
-oneState = getAllYearsForState(csvPaths,'AGUASCALIENTES')
+STATE = "AGUASCALIENTES"
+byState = {}
+for key, value in rainDictionaries.items() :
+	byState[key] = value[STATE]
+
+for key, value in byState.items():
+	print( value['ENE'] )
 
 plt.show()

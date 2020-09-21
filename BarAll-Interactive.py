@@ -10,8 +10,8 @@ YEAR, N_YEARS = 2010, 10
 txtPaths, csvPaths = [], []
 
 PATH = input("Enter the full path where the monthly data is located: ")
-#YEAR = int( input("Enter the initial the initial year: ") )
-#N_YEARS = int( input("How many years from then will be analized? ") )
+YEAR = int( input("Enter the initial the initial year(1985-2020): ") )
+N_YEARS = int( input("How many years from then will be analized? ") )
 
 #mmExplained = "La precipitación pluvial se mide en mm, que sería el espesor de la lámina de agua que se formaría, a causa de la" +  " precipitación, sobre una superficie plana e impermeable y que equivale a litros de agua por metro cuadrado de terreno (l/m^2)."
 
@@ -21,12 +21,12 @@ rainDictionaries = {}
 for year in range(YEAR, YEAR+N_YEARS):
 	txtPaths.append(PATH + str(year) + TXT_EXT)
 	csvPaths.append(PATH + str(year) + CSV_EXT)
-rainDictionaries = createDictionariesFromDataFrames(csvPaths, 2010)
+rainDictionaries = createDictionariesFromDataFrames(csvPaths, YEAR)
 
 #Building the interactive plot
 interactiveRainP = InteractiveRainPlot(rainDictionaries)
 interactiveRainP.buildSpaceForPlot()
 interactiveRainP.buildButtonsArea()
-interactiveRainP.barAllStatesAllYears(2010)
+interactiveRainP.barAllStatesAllYears(YEAR)
 
 plt.show()
